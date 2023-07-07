@@ -1,0 +1,97 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "version": "1.0.0", 
+      "title": "Autofleet Task API",
+      "description": "Api for Autofleet car locations",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "paths": {
+    "/": {
+    "get": {
+      "tags": [],
+      "summary": "Autofleet task endpoint test",
+      "responses": {
+        "200": {
+          "description": "OK"
+        }
+      }
+    }
+  },
+  "/vehicles": {
+    "get": {
+        "tags": ["Vehicle"],
+        "summary": "Get all vehicles in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Vehicle"
+            }
+          },
+          "204": {
+            "description": "No Vehicles",
+            "schema": {
+              "$ref": "#/definitions/Vehicle"
+            }
+          }
+      }
+    }
+  }
+  },
+      "definitions": {
+    "Vehicle": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "routeCommitId":{
+          "type": "string"
+        },
+        "seats": {
+          "type": "number"
+        },
+        "class": {
+            "type": "object",
+            "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+            }
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+                "lat": {
+                  "type": "number"
+                },
+                "lng": {
+                  "type": "number"
+                },
+                "bearing": {
+                  "type": "number"
+                }
+            }
+          },
+          "distance": {
+            "type": "string" 
+          }
+        }
+    }
+    },
+    "tags": [
+      {
+        "name": "Vehicle",
+        "description": "API for Vehicles in the system"
+      }
+    ],
+    "schemes": ["http", "https"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"]
+  }
