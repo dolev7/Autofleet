@@ -48,7 +48,7 @@
           "name": "coordinates[]",
           "in": "query",
           "required": true,
-          "description": "Array of coordinates of the polygons JSON string (e.g., [{'lng': lng1, 'lat': lat1},{'lng': lng2, 'lat': lat2}])",
+          "description": "Array of coordinates of the polygons JSON string (e.g., [{'lng': lng1, 'lat': lat1},{'lng': lng2, 'lat': lat2}, {'lng': lng3, 'lat': lat3}])",
           "schema": {
             "type": "string"
         }
