@@ -40,7 +40,35 @@
           }
       }
     }
-  }
+  },
+  "/vehicles/in-area": {
+    "get": {
+      "parameters": [
+        {
+          "name": "coordinates[]",
+          "in": "query",
+          "required": true,
+          "description": "Array of coordinates of the polygons JSON string (e.g., [{'lng': lng1, 'lat': lat1},{'lng': lng2, 'lat': lat2}])",
+          "schema": {
+            "type": "string"
+        }
+      }
+      ],
+      "tags": ["Vehicle"],
+      "summary": "Get Vehicles in polygon",
+      "responses": {
+        "200": {
+          "description": "OK"
+        },
+        "400": {
+          "description": "Missing parameter"
+        },
+        "404": {
+            "description": "Not enough vertices"
+          }
+      }
+    }
+    }
   },
       "definitions": {
     "Vehicle": {

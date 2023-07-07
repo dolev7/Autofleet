@@ -23,11 +23,13 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@turf/turf": "^6.5.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "joi": "^17.9.2",
     "nodemon": "^2.0.22",
     "swagger-ui-express": "^4.6.3",
+    "turf": "^3.0.14",
     "winston": "^3.9.0"
   }
 }

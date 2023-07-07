@@ -1,13 +1,10 @@
 import {logger} from '../../logger';
 const {readJson} = require ('../../services/json')
+const turf = require('@turf/turf');
 const path = require('path');
 
-const modelName = 'vehicles';
-
 export const getAllLocations = () => {
-  logger.info(`getting ${modelName} from file`);
-  const filePath = path.join(__dirname, '../../data/vehicles-location.json');
-  const vehiclesData = readJson(filePath);
+  const vehiclesData = getVehiclesDataFromJson();
   const vehiclesLocations = vehiclesData.map(vehicle => ({ 
     location: vehicle.location
   }));
@@ -15,30 +12,37 @@ export const getAllLocations = () => {
   return vehiclesLocations;
 };
 
-// export const findByName = async (itemName) => {
-//   const itemModel = await getModel(modelName);
-//   logger.info(`try find item ${itemName}`);
-//   const relevantItem = Object.values(itemModel)
-//     .find((item : any) => item.itemName === itemName);
+export const getVehiclesInArea = async ({ coordinates}) => {
+    const vehiclesData = getVehiclesDataFromJson();
+    logger.info(JSON.stringify(coordinates));
+    const filteredByArea = filterVehiclesByArea(
+        { vehiclesData, coordinates},
+    );
+        return filteredByArea;
+  };
+ 
+ const getVehiclesDataFromJson = () => {
+    logger.info('getting vehicles from file');
+    const filePath = path.join(__dirname, '../../data/vehicles-location.json');
+    return readJson(filePath);
+  };
 
-//   if (!relevantItem) {
-//     logger.warn(`item ${itemName} was not found`);
-//     return null;
-//   }
-//   logger.info(`item ${itemName} was  found `);
+  const filterVehiclesByArea = ({ vehiclesData, coordinates}) => (vehiclesData ? vehiclesData.filter(
+    (vehicle) => {
+      if (!vehicle.location) {
+        logger.error(`vehicle ${vehicle.id} does not have a defined location. it will be excluded.`);
+        return false;
+      }
+      const turfCoordinates = Object.values(coordinates).map((point: any) => [point.lng, point.lat]);
+      turfCoordinates.push(turfCoordinates[0]); // Repeat the first coordinate to close the polygon
+      const polygon = turf.polygon([turfCoordinates]);
+      let vehicleLocation = vehicle.location;
+      delete vehicleLocation.bearing;
+      const vehiclePoint = turf.point([vehicleLocation.lat, vehicleLocation.lng]);
+      const isInsidePolygon = turf.booleanPointInPolygon(vehiclePoint, polygon);
+      return isInsidePolygon;
+    },
+  ) : []);
 
-//   return relevantItem;
-// };
-
-// export const findById = async (id) => {
-//   logger.info(`getting ${id} from model ${modelName} from db`);
-//   const relevantItem = await getFromModelById(modelName,id);
-
-//   if (!relevantItem) {
-//     logger.warn('item was not found');
-//     return null;
-//   }
-//   return relevantItem;
-// };
 
 
