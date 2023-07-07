@@ -8,12 +8,10 @@ export const getAllLocations = () => {
   logger.info(`getting ${modelName} from file`);
   const filePath = path.join(__dirname, '../../data/vehicles-location.json');
   const vehiclesData = readJson(filePath);
-  logger.info(`vehicle data: ${vehiclesData}`);
   const vehiclesLocations = vehiclesData.map(vehicle => ({ 
-    location: vehicle.location,
-    distance: vehicle.distance
+    location: vehicle.location
   }));
-  logger.info(`vehicle locations: ${vehiclesLocations}`);
+  logger.info(`vehicle locations: ${JSON.stringify(vehiclesLocations)}`);
   return vehiclesLocations;
 };
 
