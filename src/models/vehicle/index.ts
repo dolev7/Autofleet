@@ -33,7 +33,7 @@ export const getVehiclesInPolygon = async ({ coordinates}) => {
         logger.error(`vehicle ${vehicle.id} does not have a defined location. it will be excluded.`);
         return false;
       }
-      const turfCoordinates = Object.values(coordinates).map((point: any) => [point.lng, point.lat]);
+      const turfCoordinates = Object.values(coordinates).map((point: any) => [point.lat, point.lng]);
       turfCoordinates.push(turfCoordinates[0]); // Repeat the first coordinate to close the polygon
       const polygon = turf.polygon([turfCoordinates]);
       let vehicleLocation = vehicle.location;
