@@ -41,7 +41,7 @@
       }
     }
   },
-  "/vehicles/in-area": {
+  "/vehicles/in-polygon": {
     "get": {
       "parameters": [
         {

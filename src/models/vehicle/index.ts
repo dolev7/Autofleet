@@ -12,12 +12,12 @@ export const getAllLocations = () => {
   return vehiclesLocations;
 };
 
-export const getVehiclesInArea = async ({ coordinates}) => {
+export const getVehiclesInPolygon = async ({ coordinates}) => {
     const vehiclesData = getVehiclesDataFromJson();
-    logger.info(JSON.stringify(coordinates));
     const filteredByArea = filterVehiclesByArea(
         { vehiclesData, coordinates},
     );
+    logger.info (`${filteredByArea.length } vehicles were found inside the polygon`)
         return filteredByArea;
   };
  

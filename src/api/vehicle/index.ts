@@ -4,7 +4,7 @@ import {
 } from '../../models/vehicle';
 
 import {logger} from '../../logger';
-const {getVehiclesInArea} = require ('../../models/vehicle')
+const {getVehiclesInPolygon} = require ('../../models/vehicle')
 
 const router = Router();
 
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
   return res.json(vehicles);
 });
 
-router.get('/in-area', async (req, res) => {
+router.get('/in-polygon', async (req, res) => {
     try {
       const {
         coordinates = [], 
@@ -26,22 +26,20 @@ router.get('/in-area', async (req, res) => {
       if (!coordinates) {
         return res.status(400).json({ msg: 'must provide coordinates' });
       }
-      logger.info (coordinates);
       const coordinatesJsonArray = JSON.parse(coordinates)
       if (coordinatesJsonArray.length < 3) {
-        logger.info (coordinatesJsonArray.length);
         return res.status(404).json({ msg: 'number of vertices must be greater or equal to 3' });
       }
-      logger.info('trying to get vehicles in area of ', { coordinatesJsonArray });
-      const vehiclesInArea = await getVehiclesInArea(
+      logger.info('trying to get vehicles inside the polygon of ', { coordinatesJsonArray });
+      const vehiclesInPolygon = await getVehiclesInPolygon(
         { coordinates: coordinatesJsonArray },
       );
-      const noVehiclesInArea = !vehiclesInArea || (vehiclesInArea && vehiclesInArea.length === 0);
-      if (noVehiclesInArea) {
+      const noVehiclesInPolygon = !vehiclesInPolygon || (vehiclesInPolygon && vehiclesInPolygon.length === 0);
+      if (noVehiclesInPolygon) {
         return res.status(200).json([]);
       }
   
-      return res.json(vehiclesInArea);
+      return res.json(vehiclesInPolygon);
     } catch (e) {
       logger.error('got an error by vehicles in area', e);
       return res.status(500).json({ error: e.message });
