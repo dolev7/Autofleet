@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../../swagger.json';
 import {logger} from '../logger'
 import vehicle from './vehicle'
+import serverless from 'serverless-http';
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 });
 app.use(['/vehicle', '/vehicles'], vehicle);
 
-const PORT_NUMBER = 3000;
+const PORT_NUMBER = process.env.PORT || 3000;
 app.listen(PORT_NUMBER);
 logger.info(`the server has started on port: ${PORT_NUMBER} !`);
+
+export const handler = serverless(app);

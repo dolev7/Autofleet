@@ -26,9 +26,10 @@ router.get('/in-polygon', async (req, res) => {
       if (!coordinates) {
         return res.status(400).json({ msg: 'must provide coordinates' });
       }
+      //@ts-ignore
       const coordinatesJsonArray = JSON.parse(coordinates)
       if (coordinatesJsonArray.length < 3) {
-        return res.status(404).json({ msg: 'number of vertices must be greater or equal to 3' });
+        return res.status(400).json({ msg: 'number of vertices must be greater or equal to 3' });
       }
       logger.info('trying to get vehicles inside the polygon of ', { coordinatesJsonArray });
       const vehiclesInPolygon = await getVehiclesInPolygon(
