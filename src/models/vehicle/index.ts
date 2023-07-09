@@ -6,6 +6,7 @@ const path = require('path');
 export const getAllLocations = () => {
   const vehiclesData = getVehiclesDataFromJson();
   const vehiclesLocations = vehiclesData.map(vehicle => ({ 
+    id: vehicle.id,
     location: vehicle.location
   }));
   logger.info(`vehicle locations: ${JSON.stringify(vehiclesLocations)}`);

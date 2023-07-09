@@ -61,11 +61,8 @@
           "description": "OK"
         },
         "400": {
-          "description": "Missing parameter"
-        },
-        "404": {
-            "description": "Not enough vertices"
-          }
+          "description": "Missing parameter/ Not enough vertices"
+        }
       }
     }
     }
